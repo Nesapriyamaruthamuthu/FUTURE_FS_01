@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Little Bee — Girls' Clothing</title>
+  <meta name="description" content="Mini e-commerce demo for girls' clothing with cart and checkout." />
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-gradient-to-b from-white to-pink-50 text-slate-800">
+  <!-- Header / Nav -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="#shop" class="logo text-xl font-extrabold">Little Bee ✿</a>
+      <nav class="flex items-center gap-4 text-sm">
+        <a href="#shop" class="hover:underline">Shop</a>
+        <a href="#checkout" class="hover:underline">Checkout</a>
+        <a href="#cart" class="relative inline-flex items-center gap-2 border rounded-full px-3 py-1 hover:shadow">
+          Cart
+          <span id="cartCount" class="min-w-[1.25rem] text-center text-xs bg-pink-600 text-white rounded-full px-2 py-0.5">0</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-6xl mx-auto px-4 py-6">
+    <!-- Shop Section -->
+    <section id="section-shop">
+      <div class="bg-pink-50 border rounded-2xl p-4 space-y-3">
+        <div class="flex gap-3 flex-wrap">
+          <input id="searchInput" class="flex-1 min-w-[220px] rounded-xl border px-3 py-2" placeholder="Search outfits…">
+          <select id="categorySelect" class="rounded-xl border px-3 py-2">
+            <option>All</option>
+            <option>Dresses</option>
+            <option>Tops</option>
+            <option>Jeans</option>
+            <option>Skirts</option>
+            <option>Ethnic Wear</option>
+          </select>
+          <input id="minPrice" type="number" min="0" class="w-28 rounded-xl border px-3 py-2" placeholder="Min ₹">
+          <input id="maxPrice" type="number" min="0" class="w-28 rounded-xl border px-3 py-2" placeholder="Max ₹">
+          <button id="resetFilters" class="ml-auto text-sm underline">Reset filters</button>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-sm text-slate-600 mr-1">Sizes:</span>
+          <div id="sizeChips" class="flex flex-wrap gap-2"></div>
+        </div>
+      </div>
+
+      <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6"></div>
+      <div id="noProducts" class="hidden col-span-full text-center text-slate-500 py-20 border rounded-2xl">
+        No products match your filters.
+      </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="section-cart" class="hidden">
+      <div class="grid md:grid-cols-3 gap-6">
+        <div id="cartItems" class="md:col-span-2 space-y-3"></div>
+        <aside class="md:col-span-1">
+          <div class="border rounded-2xl p-4 bg-white">
+            <h3 class="font-semibold mb-3">Order Summary</h3>
+            <div class="text-sm space-y-1">
+              <div class="flex justify-between"><span>Subtotal</span><span id="sumSubtotal">₹0</span></div>
+              <div class="flex justify-between"><span>Shipping</span><span id="sumShipping">₹0</span></div>
+              <div class="flex justify-between"><span>Tax (5%)</span><span id="sumTax">₹0</span></div>
+              <div class="h-px bg-slate-200 my-2"></div>
+              <div class="flex justify-between font-semibold"><span>Total</span><span id="sumTotal">₹0</span></div>
+            </div>
+            <a href="#checkout" id="toCheckout" class="block text-center mt-4 bg-pink-600 text-white rounded-xl px-4 py-2 disabled:opacity-50">Proceed to Checkout</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Checkout Section -->
+    <section id="section-checkout" class="hidden">
+      <div class="grid md:grid-cols-2 gap-6">
+        <form id="checkoutForm" class="space-y-3 bg-white border rounded-2xl p-4">
+          <h3 class="font-semibold text-lg">Shipping & Payment</h3>
+          <div class="field"><label>Full Name</label><input name="fullName" class="input" /></div>
+          <div class="field"><label>Email</label><input name="email" type="email" class="input" /></div>
+          <div class="field"><label>Phone</label><input name="phone" class="input" /></div>
+          <div class="field"><label>Address</label><input name="address" class="input" /></div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="field"><label>City</label><input name="city" class="input" /></div>
+            <div class="field"><label>PIN Code</label><input name="pin" class="input" /></div>
+          </div>
+          <div>
+            <label class="text-sm font-medium">Payment Method</label>
+            <select name="payment" class="mt-1 w-full rounded-xl border px-3 py-2">
+              <option>COD</option>
+              <option>UPI</option>
+              <option>Card</option>
+            </select>
+          </div>
+          <div class="flex gap-3">
+            <a href="#cart" class="rounded-xl border px-4 py-2">Back to Cart</a>
+            <button class="rounded-xl bg-pink-600 text-white px-4 py-2">Place Order</button>
+          </div>
+          <p id="formErrors" class="text-xs text-red-600"></p>
+        </form>
+
+        <div class="bg-white border rounded-2xl p-4 h-max">
+          <h3 class="font-semibold mb-2">Order Summary</h3>
+          <div class="flex justify-between"><span>Subtotal</span><span id="coSubtotal">₹0</span></div>
+          <div class="flex justify-between"><span>Shipping</span><span id="coShipping">₹0</span></div>
+          <div class="flex justify-between"><span>Tax (5%)</span><span id="coTax">₹0</span></div>
+          <div class="h-px bg-slate-200 my-2"></div>
+          <div class="flex justify-between font-semibold"><span>Total</span><span id="coTotal">₹0</span></div>
+          <p class="text-xs text-slate-500 mt-3">This is a simulation. No real payment is processed.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Success Section -->
+    <section id="section-success" class="hidden">
+      <div class="max-w-xl mx-auto px-4 py-10 text-center">
+        <div class="text-5xl">🎉</div>
+        <h2 class="mt-3 text-2xl font-bold">Order placed successfully!</h2>
+        <p id="confirmationEmail" class="text-slate-600 mt-2"></p>
+        <p id="successMsg" class="text-slate-600 mt-2"></p>
+        <div class="mt-6 bg-white border rounded-2xl p-4 text-left space-y-1 text-sm" id="successSummary"></div>
+        <a href="#shop" class="mt-6 inline-block rounded-xl bg-pink-600 text-white px-5 py-2">Continue Shopping</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="max-w-6xl mx-auto px-4 py-10 text-center text-sm text-slate-500">
+    © <span id="year"></span> Little Bee. Demo only.
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
